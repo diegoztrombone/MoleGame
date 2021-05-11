@@ -1,25 +1,40 @@
 let count = 0
 const mole1 = document.querySelector("#topo1")
+const mole2 = document.querySelector("#topo1")
 const counter = document.querySelector("#counter")
 
-const mole = {
+mole1.style.visibility = "hidden"
+mole2.style.visibility = "hidden"
+
+const mole = [{
     node: mole1,
     visible: false,
     id: -1,
+    
+},
+{
+    node: mole2,
+    visible: false,
+    id: -1,
+    
 }
+]
 
 function getRandom() {
     return Math.floor(Math.random() * 2000)
 }
 
 function init(mole) {
-    mole.id = setInterval(
-        () => {
-            console.info('> id: ', mole.id)
-            moleVisibility(mole)
-        }, getRandom()
-    )
-    setEvent(mole)
+    mole.forEach((_, index) => {
+        mole[index].id = setInterval(
+            () => {
+                console.info('> id: ', mole[index].id)
+                moleVisibility(mole[index])
+            }, getRandom()
+        )
+        setEvent(mole[index])    
+    });
+    
 }
 
 
@@ -42,7 +57,10 @@ function moleVisibility (mole) {
 
 function setEvent(mole) {
     mole.node.addEventListener('click', function() {
-        console.info('> Hola!')
+        console.info('> Topo mandado a la luna!')
+        mole.node.style.visibility = "hidden"
+        count++
+        counter.innerHTML=`<p>Número de topos enviados a la luna: ${count}</p>` 
     })
 }
 
