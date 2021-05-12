@@ -1,39 +1,54 @@
 let count = 0
 let level = 0
-let min =  1000
-let max = 4000
-const mole1 = document.querySelector("#topo1")
-const counter = document.querySelector("#counter")
-const button = document.querySelector("#myBtn")
-
+let min =  1200
+let max = 2500
 
 
 const mole = {
-    node: mole1,
+    node: document.querySelector("#topo1"),
     visible: false,
     id: -1,
 }
 
-// function getLevel (level) {
-//     if (level > (level-1)) {
-//         return max -= 300
-//     }
-//     if (level > 5) {
-//         max -= 200
-//         min -= 50
-//     }
-// }
-// function getRandom(min, max) {
-//     return Math.floor(Math.random() * (max - min + 1) + min);
-// }
+const counter = document.querySelector("#counter")
+const stopButton = document.querySelector("#stop").addEventListener("click", function() {
+    restart(mole)
+})
+const startButton = document.querySelector("#start").addEventListener("click", function() {
+    start(mole)
+})
+
+
+
+
+
+function getLevel (mole, level) {
+    clearInterval(mole.id)
+    console.log(mole.id)
+    init(mole)
+    if (level > (level-5)) {
+         max -= 200
+         min -= 50
+    }
+    if (level > 10) {
+        max -= 400
+        min -= 100
+    }
+}
+function getRandom(min, max) {
+    console.log("Horqulla de velocidad", min, max)
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 function init(mole) {
     mole.id = setInterval(
         () => {
             console.info('Intervalo funcionado')
             moleVisibility(mole)
-        }, 1000
+            console.log("Velocidad actual ", getRandom(min, max))
+        }, getRandom(min, max)
     )
+    
     setEvent(mole)
 }
 
@@ -60,7 +75,7 @@ function myEvent () {
     mole.node.style.visibility = 'hidden'
     if (count % 5 === 0) {
         level++
-        // getLevel(level)
+        getLevel(mole, level)
         console.log(">>>>LEVEL UP", level)
     }  
 
@@ -76,7 +91,7 @@ function stop (mole) {
 function start (mole) {
     if (mole.id > -1) {
         restart(mole)
-        init(mole)
+        
 
     } else init(mole)
     
@@ -88,6 +103,8 @@ function restart (mole) {
     mole.visible = false
     mole.id = -1
     level = 0
+    min =  1200
+    max = 2500
 }
 
 
