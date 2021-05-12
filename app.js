@@ -1,12 +1,25 @@
 let count = 0
 const mole1 = document.querySelector("#topo1")
-const mole2 = document.querySelector("#topo1")
+const mole2 = document.querySelector("#topo2")
+const mole3 = document.querySelector("#topo3")
+const mole4 = document.querySelector("#topo4")
+const mole5 = document.querySelector("#topo5")
+const mole6 = document.querySelector("#topo6")
 const counter = document.querySelector("#counter")
 
 mole1.style.visibility = "hidden"
 mole2.style.visibility = "hidden"
+mole3.style.visibility = "hidden"
+mole4.style.visibility = "hidden"
+mole5.style.visibility = "hidden"
+mole6.style.visibility = "hidden"
 
-const mole = [{
+let levelAmount = 3000
+
+let level = 1
+
+const mole = [
+{
     node: mole1,
     visible: false,
     id: -1,
@@ -17,11 +30,36 @@ const mole = [{
     visible: false,
     id: -1,
     
+},
+{
+    node: mole3,
+    visible: false,
+    id: -1,
+    
+},
+{
+    node: mole4,
+    visible: false,
+    id: -1,
+    
+},
+{
+    node: mole5,
+    visible: false,
+    id: -1,
+    
+},
+{
+    node: mole6,
+    visible: false,
+    id: -1,
+    
 }
 ]
 
 function getRandom() {
-    return Math.floor(Math.random() * 2000)
+    let m = Math.floor(Math.random() * levelAmount)
+    return m
 }
 
 function init(mole) {
@@ -36,12 +74,6 @@ function init(mole) {
     });
     
 }
-
-
-// function moleInit (node) {
-//     node.style.visibility="visible"
-//     moleEvent(node)                 
-// }
 
 function moleVisibility (mole) {
     if(mole.visible) {
@@ -61,10 +93,25 @@ function setEvent(mole) {
         mole.node.style.visibility = "hidden"
         count++
         counter.innerHTML=`<p>Número de topos enviados a la luna: ${count}</p>` 
+        if (count === 10) {
+            moleStop(mole)
+            console.log("nuevo nivel")   
+        }
     })
 }
 
-init(mole)
+function moleStop(mole) {
+    for (item of mole.id) {
+        console.log("hola se acabo")
+        clearInterval(item)
+    }
+}
+
+
+
+
+const button = document.querySelector("#button").addEventListener("click", () => init(mole))
+
 
 // function moleEvent (node) {
 //     node.addEventListener("click", (event) => {
