@@ -1,6 +1,12 @@
 let count = 0
+let level = 0
+let min =  1000
+let max = 4000
 const mole1 = document.querySelector("#topo1")
 const counter = document.querySelector("#counter")
+const button = document.querySelector("#myBtn")
+
+
 
 const mole = {
     node: mole1,
@@ -8,25 +14,28 @@ const mole = {
     id: -1,
 }
 
-function getRandom() {
-    return Math.floor(Math.random() * 2000)
-}
+// function getLevel (level) {
+//     if (level > (level-1)) {
+//         return max -= 300
+//     }
+//     if (level > 5) {
+//         max -= 200
+//         min -= 50
+//     }
+// }
+// function getRandom(min, max) {
+//     return Math.floor(Math.random() * (max - min + 1) + min);
+// }
 
 function init(mole) {
     mole.id = setInterval(
         () => {
-            console.info('> id: ', mole.id)
+            console.info('Intervalo funcionado')
             moleVisibility(mole)
-        }, getRandom()
+        }, 1000
     )
     setEvent(mole)
 }
-
-
-// function moleInit (node) {
-//     node.style.visibility="visible"
-//     moleEvent(node)                 
-// }
 
 function moleVisibility (mole) {
     if(mole.visible) {
@@ -41,39 +50,46 @@ function moleVisibility (mole) {
 }
 
 function setEvent(mole) {
-    mole.node.addEventListener('click', function() {
-        console.info('> Hola!')
-    })
+    mole.node.addEventListener('click', myEvent)
+    
 }
 
-init(mole)
+function myEvent () {
+    count++
+    console.log("> Click número", count)
+    mole.node.style.visibility = 'hidden'
+    if (count % 5 === 0) {
+        level++
+        // getLevel(level)
+        console.log(">>>>LEVEL UP", level)
+    }  
 
-// function moleEvent (node) {
-//     node.addEventListener("click", (event) => {
-//         if (event) {
-//             node.style.visibility="hidden"
-//             console.log("topo a la luna")
-//             count++
-//             counter.innerHTML=`<p>Número de topos enviados a la luna: ${count}</p>` 
-//             stopInterval(moleInterval)   
-//             setTimeout(() => {
-//                 node.style.visibility="visible"
-//                 console.log("aparece topo")
-//                 if (node.style.visibility === "visible") {
-//                     console.log("vuelve a empezar el intervalo")
-//                     moleInterval = setInterval(() => {
-//                         moleVisibility(mole1)    
-//                     }, 2000) 
-                      
-//                 }}, 5000)
-//         }             
-//     })
+}
+
+function stop (mole) {
+    console.log("PARADA")
+    clearInterval(mole.id)
+    mole.node.removeEventListener('click', myEvent)
+    mole.node.style.visibility = 'hidden'
     
-// }
+}
+function start (mole) {
+    if (mole.id > -1) {
+        restart(mole)
+        init(mole)
 
-// function stopInterval (id) {
-//     console.log("parar")
-//     clearInterval(id)
-// }
+    } else init(mole)
+    
+}
 
-// moleInit(mole1)
+function restart (mole) {
+    stop (mole)
+    count = 0
+    mole.visible = false
+    mole.id = -1
+    level = 0
+}
+
+
+
+
