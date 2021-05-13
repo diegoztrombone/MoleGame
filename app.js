@@ -1,7 +1,9 @@
 let count = 0
 let level = 0
-let min =  1200
-let max = 2500
+let min =  1500
+let max = 3000
+let fail = 0
+let flag = false
 
 
 const mole = {
@@ -18,6 +20,8 @@ const startButton = document.querySelector("#start").addEventListener("click", f
     start(mole)
 })
 
+const failScreen = document.querySelector("#topoWrapper")
+
 
 
 
@@ -27,12 +31,14 @@ function getLevel (mole, level) {
     console.log(mole.id)
     init(mole)
     if (level > (level-5)) {
-         max -= 200
-         min -= 50
+        console.log("nivel subiendo")
+         max -= 75
+         min -= 75
     }
     if (level > 10) {
-        max -= 400
-        min -= 100
+        console.log("nivel plus")
+        max -= 200
+        min -= 200
     }
 }
 function getRandom(min, max) {
@@ -45,6 +51,7 @@ function init(mole) {
         () => {
             console.info('Intervalo funcionado')
             moleVisibility(mole)
+            flag = false 
             console.log("Velocidad actual ", getRandom(min, max))
         }, getRandom(min, max)
     )
@@ -66,10 +73,14 @@ function moleVisibility (mole) {
 
 function setEvent(mole) {
     mole.node.addEventListener('click', myEvent)
+    failScreen.addEventListener('click', fault)
+    
     
 }
 
+
 function myEvent () {
+    flag = true
     count++
     console.log("> Click número", count)
     mole.node.style.visibility = 'hidden'
@@ -77,14 +88,31 @@ function myEvent () {
         level++
         getLevel(mole, level)
         console.log(">>>>LEVEL UP", level)
-    }  
+    }
+    
+    
 
+    
+
+}
+function fault() {
+    if (flag === true) {
+        console.log("no es fallo")
+    } else {
+        fail ++
+        console.log("fallos totales: ", fail)
+        flag = false
+    }
+    
+    
 }
 
 function stop (mole) {
     console.log("PARADA")
     clearInterval(mole.id)
     mole.node.removeEventListener('click', myEvent)
+    failScreen.removeEventListener('click', fault)
+
     mole.node.style.visibility = 'hidden'
     
 }
@@ -100,7 +128,9 @@ function start (mole) {
 function restart (mole) {
     stop (mole)
     count = 0
+    fail = 0
     mole.visible = false
+    flag = false
     mole.id = -1
     level = 0
     min =  1200
