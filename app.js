@@ -6,13 +6,41 @@ let fail = 0
 let flag = false
 
 
-const mole = {
-    node: document.querySelector("#topo1"),
-    visible: false,
-    id: -1,
-}
+// const mole = {
+//     node: document.querySelector("#topo1"),
+//     visible: false,
+//     id: -1,
+// }
+
+const mole = [
+    {
+        node: document.querySelector("#topo1"),
+        visible: false,
+        id: -1,
+    },
+    {
+        node: document.querySelector("#topo2"),
+        visible: false,
+        id: -1,
+    },
+    {
+        node: document.querySelector("#topo3"),
+        visible: false,
+        id: -1,
+    },
+    {
+        node: document.querySelector("#topo4"),
+        visible: false,
+        id: -1,
+    }
+]
+
+
+
+
 
 const counter = document.querySelector("#counter")
+const failCounter = document.querySelector("#failCounter")
 const stopButton = document.querySelector("#stop").addEventListener("click", function() {
     restart(mole)
 })
@@ -28,7 +56,7 @@ const failScreen = document.querySelector("#topoWrapper")
 
 function getLevel (mole, level) {
     clearInterval(mole.id)
-    console.log(mole.id)
+    
     init(mole)
     if (level > (level-5)) {
         console.log("nivel subiendo")
@@ -47,6 +75,8 @@ function getRandom(min, max) {
 }
 
 function init(mole) {
+    
+     
     mole.id = setInterval(
         () => {
             console.info('Intervalo funcionado')
@@ -72,27 +102,29 @@ function moleVisibility (mole) {
 }
 
 function setEvent(mole) {
-    mole.node.addEventListener('click', myEvent)
+    
+    
+    mole.node.addEventListener('click', function() {
+        myEvent(mole)
+    })
+    
     failScreen.addEventListener('click', fault)
     
     
 }
 
 
-function myEvent () {
+function myEvent (mole) {
     flag = true
     count++
     console.log("> Click número", count)
     mole.node.style.visibility = 'hidden'
+    counter.innerHTML = `<p>Número de topos enviados a la luna: ${count}</p>`
     if (count % 5 === 0) {
         level++
         getLevel(mole, level)
         console.log(">>>>LEVEL UP", level)
     }
-    
-    
-
-    
 
 }
 function fault() {
@@ -100,6 +132,7 @@ function fault() {
         console.log("no es fallo")
     } else {
         fail ++
+        failCounter.innerHTML = `<p>Número de fallos: ${fail}</p>`
         console.log("fallos totales: ", fail)
         flag = false
     }
@@ -108,34 +141,46 @@ function fault() {
 }
 
 function stop (mole) {
+    
     console.log("PARADA")
     clearInterval(mole.id)
-    mole.node.removeEventListener('click', myEvent)
-    failScreen.removeEventListener('click', fault)
+    mole.node.removeEventListener('click', function() {myEvent(mole)}  )
+    failScreen.removeEventListener('click', function() {fault(mole)})
+    delete mole.node
+    
 
-    mole.node.style.visibility = 'hidden'
+    // mole.node.style.visibility = 'hidden'
     
 }
 function start (mole) {
-    if (mole.id > -1) {
-        restart(mole)
-        
-
-    } else init(mole)
+    mole.forEach((_, index) => {
+        if (mole[index].id > -1) {
+            restart(mole[index])
+            
     
+        } else {
+            
+            init(mole[index])
+        }
+    })
+  
 }
 
 function restart (mole) {
-    stop (mole)
+    mole.forEach((_, index) => {
+    stop (mole[index])
     count = 0
     fail = 0
-    mole.visible = false
+    mole[index].visible = false
     flag = false
-    mole.id = -1
+    mole[index].id = -1
     level = 0
     min =  1200
     max = 2500
+    })
+    
 }
+
 
 
 
