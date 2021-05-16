@@ -124,6 +124,9 @@ function countMeter () {
         console.log(">>>>LEVEL UP", level)
     }
 
+    
+
+
 }
 function fault() {
     if (flag === true) {
@@ -134,16 +137,24 @@ function fault() {
         console.log("fallos totales: ", fail)
         flag = false
     }
+
+    if (fail > 10) {
+        stop(mole)
+        failCounter.innerHTML = `<p>GAME OVER</p>`
+    }
     
     
 }
 
 function start (mole) {
-    
+    failCounter.innerHTML = `<p>Número de fallos: 0</p>` 
     for (i=0; i < mole.length; i++ ) {
-        if (mole.id > -1) {
-            stop(mole)
+        if (mole[i].id > -1) {
+            console.log("stop")
+            window.location.reload()
+            
         } else
+        console.log("inicia")
         init(mole[i]) 
     }   
 }
@@ -162,6 +173,7 @@ function stop (a) {
         console.log("ID DESPUES DEL CLEAR:", a[i].id)
         a[i].node.style.visibility = "hidden"
         a[i].visible = false
+        a[i].id = -1
         delete a[i].node
         reAssing(a)
     }

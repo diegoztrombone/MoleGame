@@ -1,26 +1,34 @@
 #topoWrapper {
+  background-image: url(./assets/fondo.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
-  min-height: 50vh;
+  min-height: 40vh;
 }
 
 #topo1,
 #topo2,
 #topo3,
 #topo4 {
-  width: 50px;
-  height: 50px;
-  background-color: black;
+  width: 75px;
+  height: 75px;
   visibility: visible;
+  cursor: pointer;
+  margin-bottom: 50px;
 }
 
 body {
   display: flex;
+  background-image: url(./assets/Retro-Dynamic-Wallpaper-79-Retro-Game-Wallpapers-On-.jpg);
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: "Press Start 2P", cursive;
+  color: white;
 }
 #start,
 #stop {
@@ -29,4 +37,8 @@ body {
 
 p {
   text-align: center;
+}
+
+#counter {
+  margin-top: 20px;
 }
