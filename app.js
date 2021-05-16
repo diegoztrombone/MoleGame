@@ -129,6 +129,7 @@ function countMeter () {
 
 }
 function fault() {
+    
     if (flag === true) {
         console.log("no es fallo")
     } else {
@@ -138,7 +139,7 @@ function fault() {
         flag = false
     }
 
-    if (fail > 10) {
+    if (fail >= 5 ) {
         stop(mole)
         failCounter.innerHTML = `<p>GAME OVER</p>`
     }
@@ -147,7 +148,8 @@ function fault() {
 }
 
 function start (mole) {
-    failCounter.innerHTML = `<p>Número de fallos: 0</p>` 
+    failCounter.innerHTML = `<p>Número de fallos: 0</p>`
+    fail = 0 
     for (i=0; i < mole.length; i++ ) {
         if (mole[i].id > -1) {
             console.log("stop")
